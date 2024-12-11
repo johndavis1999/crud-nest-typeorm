@@ -64,7 +64,10 @@ export class UsersService {
     }
 
     async storeProfile(id: number, profile: CreateProfileDto) {
-        await this.findUser(id);
+        const user = await this.findUser(id);
+        const newProfile = this.profileRepository.create(profile);
+        const savedProfile = await this.profileRepository.save(newProfile);
+        user.profile = savedProfile;
+        return this.userRepository.save(user);
     }
-
 }
