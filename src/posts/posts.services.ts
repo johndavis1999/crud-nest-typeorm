@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "src/users/users.service";
 import { Post } from "./post.entity";
 import { Repository } from "typeorm";
+import { CreatePostDto } from "./dto/create-post.dto";
 
 @Injectable()
 export class PostsService {
@@ -14,12 +15,18 @@ export class PostsService {
 
     }
 
-    index() {
-
+    getPosts() {
+        return this.postRepository.find({
+            relations: ['id_user']
+        });
     }
     
-    store() {
+    async store(post: CreatePostDto) {
+        const userId = post.id_user.id;
+        const user = await this.usersService.findUser(userId);
 
+        const newPost = this.postRepository.create(post);
+        return await this.postRepository.save(newPost);
     }
 
     find() {

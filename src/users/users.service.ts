@@ -20,9 +20,10 @@ export class UsersService {
         return paginate<User>(this.userRepository, options);
     }
 
-    private async findUser(id: number) {
+    public async findUser(id: number) {
         const user = await this.userRepository.findOne({
             where: { id },
+            relations: ['posts']
         });
     
         if (!user) {
