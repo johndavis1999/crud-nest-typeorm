@@ -1,6 +1,4 @@
 import { Body, Controller, Delete, Get, Patch, Post, UseGuards } from "@nestjs/common";
-import { AuthGuard } from 'src/auth/auth.guard';
-import { AuthUser } from 'src/auth/user.decorator';
 import { User } from 'src/users/user.entity';
 import { CreatePostDto } from "./dto/create-post.dto";
 import { PostsService } from "./posts.services";
@@ -18,14 +16,8 @@ export class PostsController {
     }
     
     @Post()
-    @UseGuards(AuthGuard)
-    async create(@AuthUser() user: User, @Body() post: CreatePostDto) {
-        console.log('Authenticated User:', user); // Inspecciona el usuario
-        if (!user || !user.id) {
-            throw new Error('Usuario no autenticado o sin ID válido');
-        }
-    
-        return await this.postService.store(post, user);
+    async create(@Body() post: CreatePostDto) {
+        return await this.postService.store(post);
     }
 
     @Get()

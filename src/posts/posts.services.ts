@@ -22,8 +22,8 @@ export class PostsService {
         });
     }
     
-    async store(post: CreatePostDto, user: User) {
-        const userId = user.id;
+    async store(post: CreatePostDto) {
+        const userId = post.id_user.id;
         await this.usersService.findUser(userId);
 
         const newPost = this.postRepository.create(post);

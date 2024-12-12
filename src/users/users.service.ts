@@ -33,6 +33,10 @@ export class UsersService {
         return user;
     }
 
+    findByUsername (username: string) {
+        return this.userRepository.findOneBy({username});
+    }
+
     async show(id: number) {
         return this.findUser(id);
     }

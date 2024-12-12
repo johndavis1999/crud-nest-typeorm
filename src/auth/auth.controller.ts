@@ -1,25 +1,38 @@
-import { Controller, Get, Headers, UnauthorizedException } from '@nestjs/common';
-import { PersonalAccessTokensService } from './personal-access-tokens.service';
-import { User } from '../users/user.entity';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+import { AuthGuard } from './guard/auth.guard';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private readonly tokensService: PersonalAccessTokensService) {}
 
-    @Get('verify')
-    async verify(@Headers('Authorization') authorization: string): Promise<User> {
-        if (!authorization || !authorization.startsWith('Bearer ')) {
-            throw new UnauthorizedException('El token es requerido en el formato Bearer <token>');
-        }
+    constructor(
+        private readonly authService: AuthService
+    ) {}
 
-        // Extraer el token eliminando el prefijo 'Bearer '
-        const token = authorization.split(' ')[1];
+    @Get('logged')
+    @UseGuards(AuthGuard)
+    index(
+        @Request()
+        req
+    ) {
+        return req.user;
+    }
 
-        if (!token) {
-            throw new UnauthorizedException('Token no encontrado');
-        }
+    @Post('register')
+    register(
+        @Body() 
+        registerDto: RegisterDto
+    ) {
+        return this.authService.register(registerDto);
+    }
 
-        // Verificar el token usando el servicio
-        return this.tokensService.verifyToken(token);
+    @Post('login')
+    login(
+        @Body()
+        loginDto: LoginDto
+    ) {
+        return this.authService.login(loginDto);
     }
 }
