@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "src/users/users.service";
 import { Post } from "./post.entity";
+import { User } from "../users/user.entity";
 import { Repository } from "typeorm";
 import { CreatePostDto } from "./dto/create-post.dto";
 
@@ -21,9 +22,9 @@ export class PostsService {
         });
     }
     
-    async store(post: CreatePostDto) {
-        const userId = post.id_user.id;
-        const user = await this.usersService.findUser(userId);
+    async store(post: CreatePostDto, user: User) {
+        const userId = user.id;
+        await this.usersService.findUser(userId);
 
         const newPost = this.postRepository.create(post);
         return await this.postRepository.save(newPost);
