@@ -5,16 +5,18 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { PostModule } from './posts/post.module';
 import { AuthModule } from './auth/auth.module';
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '',
-      database: 'nest_crud',
+      port: +process.env.db_port,
+      username: process.env.db_username,
+      password: process.env.db_password,
+      database: process.env.db_name,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true
     }),
