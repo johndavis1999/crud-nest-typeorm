@@ -12,7 +12,7 @@ dotenv.config();
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.db_host,
       port: +process.env.db_port,
       username: process.env.db_username,
       password: process.env.db_password,
