@@ -4,7 +4,7 @@ import { UsersService } from './users.service';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { User } from './user.entity';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateProfileDto } from 'src/profiles/dto/create-profile.dto';
+import { CreateProfileDto } from '../profiles/dto/create-profile.dto';
 
 @Controller('users')
 export class UsersController {

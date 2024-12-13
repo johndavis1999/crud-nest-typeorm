@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { Profile } from 'src/profiles/profile.entity';
+import { Profile } from '../profiles/profile.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { paginate, Pagination, IPaginationOptions } from 'nestjs-typeorm-paginate';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateProfileDto } from 'src/profiles/dto/create-profile.dto';
+import { CreateProfileDto } from '../profiles/dto/create-profile.dto';
 
 @Injectable()
 export class UsersService {
