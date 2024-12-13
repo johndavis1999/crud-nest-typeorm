@@ -3,6 +3,7 @@ import { UsersService } from '../users/users.service';
 import { RegisterDto } from './dto/register.dto';
 import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { ImpersonateDto } from './dto/impersonate.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,6 +42,20 @@ export class AuthService {
 
         return {
             username,
+            token
+        };
+    }
+
+    async impersonate({id_user}: ImpersonateDto) {
+        const user = await this.userService.findUser(id_user);
+        if(!user){
+            throw new UnauthorizedException('El usuario no existe');
+        }
+        const payload = { id: user.id, 
+            username: user.username
+        }
+        const token = await this.jwtService.signAsync(payload);
+        return {
             token
         };
     }

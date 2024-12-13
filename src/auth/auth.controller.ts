@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthGuard } from './guard/auth.guard';
+import { ImpersonateDto } from './dto/impersonate.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -34,5 +35,13 @@ export class AuthController {
         loginDto: LoginDto
     ) {
         return this.authService.login(loginDto);
+    }
+
+    @Post('impersonate')
+    impersonate(
+        @Body()
+        id_user: ImpersonateDto
+    ) {
+        return this.authService.impersonate(id_user);
     }
 }
