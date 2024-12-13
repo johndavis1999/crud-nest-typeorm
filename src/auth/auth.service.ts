@@ -28,6 +28,12 @@ export class AuthService {
         if(!user){
             throw new UnauthorizedException('El usuario no existe');
         }
+
+        const isPasswordValid = await bcryptjs.compare(password, user.password);
+        if(!isPasswordValid){
+            throw new UnauthorizedException('El usuario no existe');
+        }
+
         const payload = { id: user.id, 
             username: user.username
         }
